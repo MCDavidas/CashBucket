@@ -1,0 +1,59 @@
+version: '3.7'
+
+services:
+  app:
+    build:
+      context: .
+    secrets:
+      - db-password
+    volumes:
+      - static_data:/vol/web
+      - uwsgi_socket:/vol/socket
+    environment:
+      - SECRET_KEY="${SECRET_KEY}"
+      - ALLOWED_HOSTS=127.0.0.1,localhost
+    depends_on:
+      - db
+    networks:
+      - backnet
+      - frontnet
+
+  db:
+    image: mariabd
+    command: '--default-authentication-plugin=mysql_native_password'
+    restart: always
+    secrets:
+      - db-password
+    volumes:
+      - db-data:/var/lib/mysql
+    networks:
+      - backnet
+    environment:
+      - MYSQL_DATABASE=cashbucket
+      - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/db-password
+
+  proxy:
+    build:
+      context: ./nginx
+    volumes:
+      - static_data:/vol/static
+      - uwsgi_socket:/vol/socket
+    ports:
+      - "80:80"
+    depends_on:
+      - app
+    networks:
+      - frontnet
+
+volumes:
+  static_data:
+  uwsgi_socket:
+  db-data:
+
+secrets:
+  db-password:
+    file: db/password.txt
+
+networks:
+  backnet:
+  frontnet:

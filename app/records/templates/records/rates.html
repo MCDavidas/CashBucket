@@ -1,0 +1,82 @@
+{% load static %}
+{% load bootstrap3 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CashBucket</title>
+
+    <link rel="stylesheet" href="{% static 'records/css/main.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle"
+                        data-toggle="collapse" data-target="#kek">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">CashBucket</a>
+            </div>
+            <div id="kek" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="{% url 'records:home' %}">Главная</a></li>
+                    <li class="active"><a href="{% url 'records:rates' %}">Курс валют</a></li>
+                    {% if not login_flag %}
+                        <li><a href="{% url 'records:login' %}">Войти</a></li>
+                    {% else %}
+                        <li><a href="{% url 'records:dashboard' param='all_time' count=1 %}">Рабочая панель</a></li>
+                        <li><a href="{% url 'records:logout' %}">Выйти</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="t">
+        <div class="container w">
+            <table class="table table-striped table-bordered table-condensed">
+                <thead>
+                    <tr>
+                        <th>Наименование иностранной валюты</th>
+                        <th>Количество единиц иностранной валюты</th>
+                        <th>Официальный курс</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for it in data %}
+                    <tr>
+                        <td>
+                            <div><span>{{ it.name }}</span></div>
+                        </td>
+                        <td>{{ it.count }}</td>
+                        <td>
+                            <div>{{ it.value }}</div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+	</div>
+    <div id="f">
+        <div class="container">
+            <div class="row centered">
+                <a href="#"><i class="fa fa-twitter">Twitter</i></a>
+                <a href="#"><i class="fa fa-facebook">Facebook</i></a>
+                <a href="#"><i class="fa fa-vk">VK</i></a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+</body>
+</html>

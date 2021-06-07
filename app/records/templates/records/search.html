@@ -1,0 +1,130 @@
+{% load static %}
+{% load bootstrap3 %}
+{% bootstrap_css %}
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>CashBucket</title>
+
+        <link rel="stylesheet" href="{% static 'records/css/dashboard.css' %}">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    </head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="{% url "records:home" %}">CashBucket</a>
+            {% if warning %}
+                <button style="margin-top: 8px" type="button" onclick="window.location.href='{% url 'records:budget' %}'" class="btn btn-warning btn-md">
+                          !
+                </button>
+            {% endif %}
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li><a href="{% url 'records:menu' %}">Просмотр записей</a></li>
+              <li><a href="{% url 'records:new_record' workflow_param='expense' %}">Добавить</a></li>
+              <li><a href="{% url 'records:search' %}">Поиск</a></li>
+              <li><a href="{% url 'records:profile' %}">Профиль</a></li>
+              <li><a href="{% url 'records:logout' %}">Выйти</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+            <ul class="nav nav-sidebar">
+              <li><a href="{% url 'records:dashboard' param='all_time' count=1 %}">Записи расходов</a></li>
+              <li><a href="{% url 'records:dashboard_income' param='all_time' count=1 %}">Записи доходов</a></li>
+                <li><a href="{% url 'records:budget' %}">Лимиты</a></li>
+            </ul>
+            <ul class="nav nav-sidebar">
+              <li><a href="{% url 'records:category' workflow_param='week' %}">Отчеты по расходам</a></li>
+              <li><a href="{% url 'records:new_record' workflow_param='expense' %}">Добавить</a></li>
+              <li class="active"><a href="{% url 'records:search' %}">Поиск</a></li>
+              <li><a href="{% url 'records:analytics' workflow_param='week'%}">Аналитика</a></li>
+            </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <h1 class="page-header">Рабочая панель</h1>
+
+            <form method="post" class="form-horizontal">
+                {% csrf_token %}
+                <div class="form-group form-inline form-group-lg">
+                    <label class="col-lg-2 control-label">Дата</label>
+                    <div class="col-lg-4">
+                        {{ form.date }}
+                    </div>
+                </div>
+                <br><br>
+                <div class="col-lg-offset-1">
+                    <input type="submit" class="btn btn-success btn-lg" value="Найти">
+                </div>
+            </form>
+            <br><br>
+
+            {% if flag %}
+                <h2 class="sub-header">Расходы</h2>
+                  <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                      <thead>
+                        <tr>
+                            <th scope="col">Дата</th>
+                            <th scope="col">Сумма</th>
+                            <th scope="col">Категория</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for elem in expense %}
+                        <tr>
+                            <td>{{ elem.date }}</td>
+                            <td><i>{{ elem.value }}</i> <b>{{ elem.type }}</b></td>
+                            <td>{{ elem.category }}</td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+
+                <h2 class="sub-header">Доходы</h2>
+                  <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                      <thead>
+                        <tr>
+                            <th scope="col">Дата</th>
+                            <th scope="col">Сумма</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for elem in income %}
+                        <tr>
+                            <td>{{ elem.date }}</td>
+                            <td><i>{{ elem.value }}</i> <b>{{ elem.type }}</b></td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+            {% endif %}
+
+        </div>
+      </div>
+    </div>
+
+    
+  </body>
+</html>

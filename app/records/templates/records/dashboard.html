@@ -1,0 +1,191 @@
+{% load static %}
+{% load bootstrap3 %}
+{% bootstrap_css %}
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>CashBucket</title>
+
+        <link rel="stylesheet" href="{% static 'records/css/dashboard.css' %}">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    </head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="{% url "records:home" %}">CashBucket</a>
+            {% if warning %}
+                <button style="margin-top: 8px" type="button" onclick="window.location.href='{% url 'records:budget' %}'" class="btn btn-warning btn-md">
+                          !
+                </button>
+            {% endif %}
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li><a href="{% url 'records:menu' %}">Просмотр записей</a></li>
+              <li><a href="{% url 'records:new_record' workflow_param='expense' %}">Добавить</a></li>
+              <li><a href="{% url 'records:search' %}">Поиск</a></li>
+              <li><a href="{% url 'records:profile' %}">Профиль</a></li>
+              <li><a href="{% url 'records:logout' %}">Выйти</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+
+        <div class="col-sm-3 col-md-2 sidebar">
+            <ul class="nav nav-sidebar">
+              <li class="active"><a href="{% url 'records:dashboard' param='all_time' count=1 %}">Записи расходов</a></li>
+              <li><a href="{% url 'records:dashboard_income' param='all_time' count=1 %}">Записи доходов</a></li>
+                <li><a href="{% url 'records:budget' %}">Лимиты</a></li>
+            </ul>
+            <ul class="nav nav-sidebar">
+              <li><a href="{% url 'records:category' workflow_param='week' %}">Отчеты по расходам</a></li>
+              <li><a href="{% url 'records:new_record' workflow_param='expense' %}">Добавить</a></li>
+              <li><a href="{% url 'records:search' %}">Поиск</a></li>
+              <li><a href="{% url 'records:analytics' workflow_param='week'%}">Аналитика</a></li>
+            </ul>
+        </div>
+
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <h1 class="page-header">Рабочая панель</h1>
+
+            <div class="btn-group btn-group-lg" role="group">
+
+                {% if workflow_param == 'all_time' %}
+                <button type="button" onclick="window.location.href = '{% url 'records:dashboard' param='all_time' count=1 %}'" class="btn btn-default btn-primary">
+                    Все время
+                </button>
+                {% else %}
+                    <button type="button" onclick="window.location.href = '{% url 'records:dashboard' param='all_time' count=1 %}'" class="btn btn-default">
+                        Все время
+                    </button>
+                {% endif %}
+
+                {% if workflow_param == 'year' %}
+                <button type="button" onclick="window.location.href = '{% url 'records:dashboard' param='year' count=1 %}'" class="btn btn-default btn-primary">
+                    Год
+                </button>
+                {% else %}
+                    <button type="button" onclick="window.location.href = '{% url 'records:dashboard' param='year' count=1 %}'" class="btn btn-default">
+                        Год
+                    </button>
+                {% endif %}
+
+                {% if workflow_param == 'month' %}
+                <button type="button" onclick="window.location.href = '{% url 'records:dashboard' param='month' count=1 %}'" class="btn btn-default btn-primary">
+                    Месяц
+                </button>
+                {% else %}
+                    <button type="button" onclick="window.location.href = '{% url 'records:dashboard' param='month' count=1 %}'" class="btn btn-default">
+                        Месяц
+                    </button>
+                {% endif %}
+
+                {% if workflow_param == 'week' %}
+                <button type="button" onclick="window.location.href = '{% url 'records:dashboard' param='week' count=1 %}'" class="btn btn-default btn-primary">
+                    Неделя
+                </button>
+                {% else %}
+                    <button type="button" onclick="window.location.href = '{% url 'records:dashboard' param='week' count=1 %}'" class="btn btn-default">
+                        Неделя
+                    </button>
+                {% endif %}
+
+                {% if workflow_param == 'day' %}
+                <button type="button" onclick="window.location.href = '{% url 'records:dashboard' param='day' count=1 %}'" class="btn btn-default btn-primary">
+                    Сегодня
+                </button>
+                {% else %}
+                    <button type="button" onclick="window.location.href = '{% url 'records:dashboard' param='day' count=1 %}'" class="btn btn-default">
+                        Сегодня
+                    </button>
+                {% endif %}
+
+            </div>
+
+          <h2 class="sub-header">Список записей расходов</h2>
+          <div class="table-responsive">
+            <table class="table table-striped table-hover">
+              <thead>
+                <tr>
+                    <th scope="col">Дата</th>
+                    <th scope="col">Сумма</th>
+                    <th scope="col">Категория</th>
+                    <th scope="col">Удалить</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for elem in records %}
+                <tr>
+                    <td>{{ elem.date }}</td>
+                    {% if elem.text %}
+                        <td>
+                        <button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover" data-placement="top" data-content="{{ elem.text }}">
+                          <i>{{ elem.value }}</i> <b>{{ elem.type }}</b>
+                        </button>
+                        </td>
+                    {% else %}
+                        <td><i>{{ elem.value }}</i> <b>{{ elem.type }}</b></td>
+                    {% endif %}
+                    <td>{{ elem.category }}</td>
+                    <td>
+                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal{{ elem.id }}">
+                          X
+                        </button>
+                        <div class="modal fade" id="exampleModal{{ elem.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                              <div class="modal-body">
+                                  <h3>Вы действительно хотите удалить выбранную запись?</h3>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                                <button type="button"
+                                        class="btn btn-danger"
+                                        onclick="window.location.href = '{% url 'records:remove' record_type=1 param=elem.id workflow_param=workflow_param %}'">
+                                    Удалить
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+
+            {% if prev %}
+                <a href="{% url 'records:dashboard' param=workflow_param count=count_prev %}" style="font-size: 20px">Назад</a>
+            {% endif %}
+            <br>
+            {% if next %}
+                <a class="pages" href="{% url 'records:dashboard' param=workflow_param count=count_next %}" style="font-size: 20px">Далее</a>
+            {% endif %}
+
+        </div>
+      </div>
+    </div>
+  </body>
+    <script>
+        $(function () {
+            $('[data-toggle="popover"]').popover()
+        })
+    </script>
+</html>

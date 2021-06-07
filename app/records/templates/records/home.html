@@ -1,0 +1,118 @@
+{% load static %}
+{% load bootstrap3 %}
+{% bootstrap_css %}
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CashBucket</title>
+
+    <link rel="stylesheet" href="{% static 'records/css/main.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle"
+                        data-toggle="collapse" data-target="#kek">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">CashBucket</a>
+            </div>
+            <div id="kek" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="active"><a href="{% url 'records:home' %}">Главная</a></li>
+                    <li><a href="{% url 'records:rates' %}">Курс валют</a></li>
+                    {% if not login_flag %}
+                        <li><a href="{% url 'records:login' %}">Войти</a></li>
+                    {% else %}
+                        <li><a href="{% url 'records:dashboard' param='all_time' count=1 %}">Рабочая панель</a></li>
+                        <li><a href="{% url 'records:logout' %}">Выйти</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="headerwrap">
+        <div class="container">
+            <div class="row centered">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <h1>Следить за финансами</h1>
+                    <h2>просто</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container w">
+        <div class="row centered">
+            <br><br>
+            <div class="col-lg-4">
+                <h4>Всегда под рукой</h4>
+                <p>Получайте доступ к приложению с помощью компьютера или смартфона. Ничего устанавливать не нужно.</p>
+            </div>
+            <div class="col-lg-4">
+                <h4>Наглядные графики</h4>
+                <p>Приложение построит графики, основанные на ваших денежных тратах.</p>
+            </div>
+            <div class="col-lg-4">
+                <h4>Приватность</h4>
+                <p>Все ваши данные надежно защищены. Только вы можете получить к ним доступ.</p>
+            </div>
+        </div>
+        <br><br>
+    </div>
+    <div class="container wb">
+        <div class="row centered">
+            <br><br>
+            <div class="col-lg-8 col-lg-offset-2">
+                <h4>Контролируйте финанасы</h4>
+                <p>Для многих людей на сегодняшний день является актуальным вопрос контроля финансов. Несмотря на сложность самого процесса, не стоит исключать его надобности и эффективности. Ведь именно благодаря контролю мы можем избавляться от «ненужной утечки» денег.</p>
+                <p><br><br></p>
+            </div>
+            <div class="col-lg-2"></div>
+            <div class="col-lg-5 col-lg-offset-1">
+                <img src="{% static "records/images/graph.png" %}" style="border:2px solid black;" class="img-responsive">
+            </div>
+            <div class="col-lg-5">
+                <img src="{% static "records/images/graph2.png" %}" style="border:2px solid black;" class="img-responsive">
+            </div>
+        </div>
+    </div>
+    <div id="lg">
+        <div class="container">
+            <div class="row centered">
+                <h4>Наша команда</h4>
+                <br><br>
+                <div class="col-lg-4">
+                    <img src="{% static "records/images/sample3.jpg" %}" width="220" height="260" alt="">
+                    <figcaption>Самоховец Дина Васильевна</figcaption>
+                </div>
+                <div class="col-lg-4">
+                    <img src="{% static "records/images/sample1.jpg" %}" width="260" height="260" alt="">
+                    <figcaption>Антон Стахейко</figcaption>
+                </div>
+                <div class="col-lg-4">
+                    <img src="{% static "records/images/sample2.jpg" %}" width="150" height="260" alt="">
+                    <figcaption>Королёва Анастасия</figcaption>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="f">
+        <div class="container">
+            <div class="row centered">
+                <a href="#"><i class="fa fa-twitter">Twitter</i></a>
+                <a href="#"><i class="fa fa-facebook">Facebook</i></a>
+                <a href="#"><i class="fa fa-vk">VK</i></a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

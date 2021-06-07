@@ -1,0 +1,199 @@
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa&family=Istok+Web:ital@1&display=swap');
+
+body {
+    background: #f2f2f2;
+    font-family: "Comfortaa", serif;
+    font-weight: 300;
+    font-size: 16px;
+    color: #555;
+
+    -webkit-font-smoothing: antialiased;
+    -webkit-overflow-scrolling: touch;
+
+    margin-top: 70px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Comfortaa", serif;
+    font-weight: 300;
+    color: #333;
+}
+
+p {
+    line-height: 28px;
+    margin-bottom: 25px;
+}
+
+.centered {
+    text-align: center;
+}
+
+a {
+    color: #56baed;
+}
+
+a:hover, a:focus {
+    color: #39ace7;
+    text-decoration: none;
+    outline: 0;
+}
+
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 1em 0;
+    padding: 0;
+}
+
+.navbar {
+    font-weight: 800;
+    font-size: 14px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.navbar-inverse {
+    background: #2d2d2d;
+    border-color: #2d2d2d;
+}
+
+.navbar-inverse .navbar-nav > .active > a {
+    background-color: #39ace7;
+}
+
+.navbar-inverse .navbar-brand {
+    color: #999;
+    font-weight: bolder;
+    font-size: 22px;
+    letter-spacing: 1px;
+}
+
+#headerwrap {
+    margin-top: -10px;
+    padding-top: 20px;
+    text-align: center;
+    min-height: 500px;
+    width: 100%;
+
+    background-attachment: fixed;
+	background-color: #645862;
+	background-image: url(../images/header-bg.jpeg);
+	background-repeat: no-repeat;
+	color: white;
+
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+#headerwrap h1 {
+    margin-top: 100px;
+    color: white;
+    font-size: 70px;
+    font-weight: 300;
+    letter-spacing: 3px;
+}
+
+#headerwrap h2 {
+    color: white;
+    font-size: 40px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.w {
+    padding-top: 35px;
+}
+
+.w h4 {
+    font-size: 25px;
+}
+
+.wb {
+    padding-top: 35px;
+    margin-top: 0;
+}
+
+.wb h4 {
+    font-size: 35px;
+}
+
+#lg {
+    padding-top: 70px;
+    padding-bottom: 70px;
+    text-align: center;
+}
+
+#lg h4 {
+    font-size: 40px;
+}
+
+#r {
+    background: #5fbae9;
+    padding-top: 70px;
+    padding-bottom: 70px;
+}
+
+#r h4 {
+    color: white;
+    font-size: 45px;
+}
+
+#r p {
+    color: white;
+}
+
+#f {
+    background: #2d2d2d;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+#f i {
+    color: #bdbdbd;
+    font-size: 30px;
+    padding: 20px;
+}
+
+#f i:hover {
+    color: #5fbae9;
+}
+
+#t {
+    background: white;
+    padding-top: 50px;
+    padding-bottom: 70px;
+}
+
+#t th {
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+@media (min-width:0px) and (max-width: 600px) {
+    #headerwrap h1 {
+	    font-size: 50px;
+    }
+
+    #headerwrap h2 {
+        color: white;
+        font-size: 25px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+    }
+
+    #t th {
+        text-align: center;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        font-size: 12px;
+    }
+
+    #t td {
+        font-size: 12px;
+    }
+}

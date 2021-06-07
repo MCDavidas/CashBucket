@@ -1,0 +1,62 @@
+{% load static %}
+{% load bootstrap3 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% load crispy_forms_tags %}
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CashBucket</title>
+
+    <link rel="stylesheet" href="{% static 'records/css/login.css' %}">
+</head>
+<body>
+    <div class="wrapper fadeInDown">
+        <div id="headerwrap">
+            <div class="container">
+                <div class="fadeIn first">
+                    <a href="{% url "records:home" %}"><h1 style="text-align: center">CashBucket</h1></a>
+                </div>
+            </div>
+        </div>
+        <div id="formContent">
+            <br><br>
+            {% if error_message %}
+                <div class="fadeIn first">
+                    <h3>{{ error_message }}</h3>
+                </div>
+            {% endif %}
+            {% if flag %}
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <input type="submit" class="fadeIn fourth" value="Войти">
+                </form>
+                <div id="formFooter">
+                    <div class="fadeIn first">
+                        <a href="{% url "records:register" %}">Новый аккаунт</a>
+                    </div>
+                </div>
+            {% else %}
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.username }}
+                    {{ form.password }}
+                    {{ form.confirm_password }}
+                    <i>Введите текст с картинки  </i>  {{ form.captcha }}
+                    <input type="submit" class="fadeIn fourth" value="Создать">
+                </form>
+                <div id="formFooter">
+                    <div class="fadeIn first">
+                        <a href="{% url "records:login" %}">Уже есть аккаунт?</a>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+</body>
+</html>

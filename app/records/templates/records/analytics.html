@@ -1,0 +1,133 @@
+{% load static %}
+{% load bootstrap3 %}
+{% bootstrap_css %}
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>CashBucket</title>
+
+        <link rel="stylesheet" href="{% static 'records/css/dashboard.css' %}">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    </head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="{% url "records:home" %}">CashBucket</a>
+            {% if warning %}
+                <button style="margin-top: 8px" type="button" onclick="window.location.href='{% url 'records:budget' %}'" class="btn btn-warning btn-md">
+                          !
+                </button>
+            {% endif %}
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li><a href="{% url 'records:menu' %}">Просмотр записей</a></li>
+              <li><a href="{% url 'records:new_record' workflow_param='expense' %}">Добавить</a></li>
+              <li><a href="{% url 'records:search' %}">Поиск</a></li>
+              <li><a href="{% url 'records:profile' %}">Профиль</a></li>
+              <li><a href="{% url 'records:logout' %}">Выйти</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+            <ul class="nav nav-sidebar">
+              <li><a href="{% url 'records:dashboard' param='all_time' count=1 %}">Записи расходов</a></li>
+              <li><a href="{% url 'records:dashboard_income' param='all_time' count=1 %}">Записи доходов</a></li>
+                <li><a href="{% url 'records:budget' %}">Лимиты</a></li>
+            </ul>
+            <ul class="nav nav-sidebar">
+              <li><a href="{% url 'records:category' workflow_param='week' %}">Отчеты по расходам</a></li>
+              <li><a href="{% url 'records:new_record' workflow_param='expense' %}">Добавить</a></li>
+              <li><a href="{% url 'records:search' %}">Поиск</a></li>
+              <li class="active"><a href="{% url 'records:analytics' workflow_param='week'%}">Аналитика</a></li>
+            </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <h1 class="page-header">Рабочая панель</h1>
+
+            <table class="table table-striped">
+              <tbody>
+                <tr>
+                    <td>Потрачено за год</td>
+                    <td><i>{{ sum_year }}</i> <b>BYN</b></td>
+                </tr>
+                <tr>
+                    <td>Потрачено за последние 30 дней</td>
+                    <td><i>{{ sum_month }}</i> <b>BYN</b></td>
+                </tr>
+                <tr>
+                    <td>Потрачено за последние 7 дней</td>
+                    <td><i>{{ sum_week }}</i> <b>BYN</b></td>
+                </tr>
+              </tbody>
+            </table>
+
+            <br>
+
+                <div class="btn-group btn-group-lg" role="group">
+
+                {% if workflow_param == 'year' %}
+                <button type="button" onclick="window.location.href = '{% url 'records:analytics' workflow_param='year' %}'" class="btn btn-default btn-primary">
+                    Год
+                </button>
+                {% else %}
+                    <button type="button" onclick="window.location.href = '{% url 'records:analytics' workflow_param='year' %}'" class="btn btn-default">
+                        Год
+                    </button>
+                {% endif %}
+
+                {% if workflow_param == 'month' %}
+                <button type="button" onclick="window.location.href = '{% url 'records:analytics' workflow_param='month' %}'" class="btn btn-default btn-primary">
+                    Месяц
+                </button>
+                {% else %}
+                    <button type="button" onclick="window.location.href = '{% url 'records:analytics' workflow_param='month' %}'" class="btn btn-default">
+                        Месяц
+                    </button>
+                {% endif %}
+
+                {% if workflow_param == 'week' %}
+                <button type="button" onclick="window.location.href = '{% url 'records:analytics' workflow_param='week' %}'" class="btn btn-default btn-primary">
+                    Неделя
+                </button>
+                {% else %}
+                    <button type="button" onclick="window.location.href = '{% url 'records:analytics' workflow_param='week' %}'" class="btn btn-default">
+                        Неделя
+                    </button>
+                {% endif %}
+
+            </div>
+
+            <br><br>
+            {% if workflow_param == 'year' %}
+                <img class="img-responsive" src="{% url 'records:graph' param='year' %}" alt="graph">
+            {% endif %}
+            {% if workflow_param == 'month' %}
+                <img class="img-responsive" src="{% url 'records:graph' param='month' %}" alt="graph">
+            {% endif %}
+            {% if workflow_param == 'week' %}
+                <img class="img-responsive" src="{% url 'records:graph' param='week' %}" alt="graph">
+            {% endif %}
+
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
